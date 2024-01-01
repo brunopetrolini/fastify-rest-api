@@ -2,12 +2,16 @@
   "name": "fastify-rest-api",
   "version": "1.0.0",
   "scripts": {
-    "start": "node dist/server.js"
+    "build": "tsc",
+    "start": "npm run build && node dist/server.js"
   },
   "author": "brunopetrolini <brunopetrolini@hotmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "fastify": "^4.25.2"
+  },
   "devDependencies": {
+    "@types/node": "^20.10.6",
     "typescript": "^5.3.3"
   }
 }
