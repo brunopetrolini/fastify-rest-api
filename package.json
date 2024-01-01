@@ -5,8 +5,12 @@
     "build": "tsc",
     "start": "npm run build && node dist/server.js",
     "dev": "tsx watch src/server.ts",
+<<<<<<< HEAD
     "lint": "eslint src --ext .ts",
     "lint:fix": "npm run lint -- --fix"
+=======
+    "lint": "eslint src --ext .ts"
+>>>>>>> 93d0690640b1d861622b624440a8fb39e8010aed
   },
   "author": "brunopetrolini <brunopetrolini@hotmail.com>",
   "license": "MIT",
