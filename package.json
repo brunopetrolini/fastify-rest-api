@@ -11,7 +11,9 @@
   "author": "brunopetrolini <brunopetrolini@hotmail.com>",
   "license": "MIT",
   "dependencies": {
-    "fastify": "^4.25.2"
+    "fastify": "^4.25.2",
+    "knex": "^3.1.0",
+    "sqlite3": "^5.1.7-rc.0"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",

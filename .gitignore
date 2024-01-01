@@ -4,5 +4,6 @@
 # Node folders
 node_modules
 
-# Production
+# Project folders
+temp
 dist
