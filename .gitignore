@@ -5,5 +5,5 @@
 node_modules
 
 # Project folders
-temp
+src/infra/database/app.db
 dist
