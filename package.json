@@ -1,5 +1,11 @@
 {
-  "dependencies": {
+  "name": "fastify-rest-api",
+  "version": "1.0.0",
+  "scripts": {},
+  "author": "brunopetrolini <brunopetrolini@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
     "typescript": "^5.3.3"
   }
 }
