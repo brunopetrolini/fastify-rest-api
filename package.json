@@ -1,7 +1,9 @@
 {
   "name": "fastify-rest-api",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "start": "node dist/server.js"
+  },
   "author": "brunopetrolini <brunopetrolini@hotmail.com>",
   "license": "MIT",
   "dependencies": {},
