@@ -36,9 +36,7 @@ export class TransactionsController {
       session_id: sessionId,
     })
 
-    return reply.status(201).send({
-      error: 'Unauthorized.',
-    })
+    return reply.status(201).send()
   }
 
   public async listTransactions(
