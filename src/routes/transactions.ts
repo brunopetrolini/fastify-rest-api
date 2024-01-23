@@ -1,15 +1,11 @@
-import { randomUUID } from 'node:crypto'
+import type { FastifyInstance } from 'fastify'
+import { checkSessionIdMiddy } from '../middlewares'
 import { z } from 'zod'
+import { randomUUID } from 'node:crypto'
+import { knex } from '../../db'
 
-import type { FastifyRequest, FastifyReply } from 'fastify'
-
-import { knex } from '../../infra/database'
-
-export class TransactionsController {
-  public async createTransaction(
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ): Promise<FastifyReply> {
+export async function transactionsRoutes(app: FastifyInstance) {
+  app.post('/', async (request, reply) => {
     const createTransactionBodySchema = z.object({
       title: z.string(),
       amount: z.number(),
@@ -37,21 +33,22 @@ export class TransactionsController {
     })
 
     return reply.status(201).send()
-  }
+  })
 
-  public async listTransactions(
-    request: FastifyRequest,
-    reply: FastifyReply,
-  ): Promise<FastifyReply> {
-    const sessionId = request.cookies.sessionId
+  app.get(
+    '/',
+    { preHandler: [checkSessionIdMiddy] },
+    async (request, reply) => {
+      const sessionId = request.cookies.sessionId
 
-    const transactions = await knex('transactions')
-      .where('session_id', sessionId)
-      .select('*')
-    return reply.status(200).send({ transactions })
-  }
+      const transactions = await knex('transactions')
+        .where('session_id', sessionId)
+        .select('*')
+      return reply.status(200).send({ transactions })
+    },
+  )
 
-  public async getTransaction(request: FastifyRequest) {
+  app.get('/:id', { preHandler: [checkSessionIdMiddy] }, async (request) => {
     const transactionParamsSchema = z.object({
       id: z.string().uuid(),
     })
@@ -67,15 +64,19 @@ export class TransactionsController {
       })
       .first()
     return { transaction }
-  }
+  })
 
-  public async getTransactionsSummary(request: FastifyRequest) {
-    const sessionId = request.cookies.sessionId
+  app.get(
+    '/summary',
+    { preHandler: [checkSessionIdMiddy] },
+    async (request) => {
+      const sessionId = request.cookies.sessionId
 
-    const summary = await knex('transactions')
-      .where('session_id', sessionId)
-      .sum('amount', { as: 'amount' })
-      .first()
-    return { summary }
-  }
+      const summary = await knex('transactions')
+        .where('session_id', sessionId)
+        .sum('amount', { as: 'amount' })
+        .first()
+      return { summary }
+    },
+  )
 }
