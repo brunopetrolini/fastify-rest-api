@@ -36,12 +36,21 @@ export class TransactionsController {
       session_id: sessionId,
     })
 
-    return reply.status(201).send()
+    return reply.status(201).send({
+      error: 'Unauthorized.',
+    })
   }
 
-  public async listTransactions() {
-    const transactions = await knex('transactions').select('*')
-    return { transactions }
+  public async listTransactions(
+    request: FastifyRequest,
+    reply: FastifyReply,
+  ): Promise<FastifyReply> {
+    const sessionId = request.cookies.sessionId
+
+    const transactions = await knex('transactions')
+      .where('session_id', sessionId)
+      .select('*')
+    return reply.status(200).send({ transactions })
   }
 
   public async getTransaction(request: FastifyRequest) {
