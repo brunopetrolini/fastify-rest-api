@@ -60,12 +60,22 @@ export class TransactionsController {
 
     const { id } = transactionParamsSchema.parse(request.params)
 
-    const transaction = await knex('transactions').where({ id }).first()
+    const sessionId = request.cookies.sessionId
+
+    const transaction = await knex('transactions')
+      .where({
+        id,
+        session_id: sessionId,
+      })
+      .first()
     return { transaction }
   }
 
-  public async getTransactionsSummary() {
+  public async getTransactionsSummary(request: FastifyRequest) {
+    const sessionId = request.cookies.sessionId
+
     const summary = await knex('transactions')
+      .where('session_id', sessionId)
       .sum('amount', { as: 'amount' })
       .first()
     return { summary }
