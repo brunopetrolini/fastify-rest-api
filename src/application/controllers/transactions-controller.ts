@@ -20,10 +20,20 @@ export class TransactionsController {
       request.body,
     )
 
+    let sessionId = request.cookies.sessionId
+    if (!sessionId) {
+      sessionId = randomUUID()
+      reply.setCookie('sessionId', sessionId, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+      })
+    }
+
     await knex('transactions').insert({
       id: randomUUID(),
       title,
       amount: type === 'debit' ? amount * -1 : amount,
+      session_id: sessionId,
     })
 
     return reply.status(201).send()
