@@ -12,11 +12,11 @@ afterAll(async () => {
 })
 
 it('should create a new transaction', async () => {
-  const response = await request(app.server)
+  await request(app.server)
     .post('/transactions')
     .send({
       title: 'Salary',
-      value: 3000,
+      amount: 3000,
       type: 'credit',
     })
     .expect(201)

@@ -5,6 +5,6 @@
 node_modules
 
 # Project folders and files
-src/infra/database/app.db
+app.db
 dist
 .env
