@@ -1,8 +1,10 @@
-import type { FastifyInstance } from 'fastify'
-import { checkSessionIdMiddy } from '../middlewares'
 import { z } from 'zod'
 import { randomUUID } from 'node:crypto'
-import { knex } from '../../db'
+
+import { checkSessionIdMiddy } from '../middlewares'
+import { knex } from '../db'
+
+import type { FastifyInstance } from 'fastify'
 
 export async function transactionsRoutes(app: FastifyInstance) {
   app.post('/', async (request, reply) => {
