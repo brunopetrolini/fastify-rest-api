@@ -61,4 +61,71 @@ describe('Transaction Routes', () => {
       ],
     })
   })
+
+  it('should be able to get a specific transaction', async () => {
+    const transaction = makeNewTransaction()
+
+    const createTransactionResponse = await request(app.server)
+      .post('/transactions')
+      .send(transaction)
+
+    const cookies = createTransactionResponse.get('Set-Cookie')
+
+    const listTransactionsResponse = await request(app.server)
+      .get('/transactions')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    const transactionId = listTransactionsResponse.body.transactions[0].id
+
+    const getTransactionResponse = await request(app.server)
+      .get(`/transactions/${transactionId}`)
+      .set('Cookie', cookies)
+      .expect(200)
+
+    expect(getTransactionResponse.body).toEqual({
+      transaction: expect.objectContaining({
+        title: transaction.title,
+        amount:
+          transaction.type === 'credit'
+            ? transaction.amount
+            : transaction.amount * -1,
+      }),
+    })
+  })
+
+  it('should be able to get the summary', async () => {
+    const creditTransaction = {
+      title: chance.company(),
+      amount: chance.integer({ min: 1, max: 10000 }),
+      type: 'credit',
+    }
+
+    const createTransactionResponse = await request(app.server)
+      .post('/transactions')
+      .send(creditTransaction)
+
+    const cookies = createTransactionResponse.get('Set-Cookie')
+
+    const debitTransaction = {
+      title: chance.company(),
+      amount: chance.integer({ min: 1, max: 10000 }),
+      type: 'debit',
+    }
+
+    await request(app.server)
+      .post('/transactions')
+      .set('Cookie', cookies)
+      .send(debitTransaction)
+
+    const transactionsSummaryResponse = await request(app.server)
+      .get('/transactions/summary')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    const expectedAmount = creditTransaction.amount - debitTransaction.amount
+    expect(transactionsSummaryResponse.body).toEqual({
+      summary: { amount: expectedAmount },
+    })
+  })
 })
