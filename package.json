@@ -1,6 +1,9 @@
 {
   "name": "fastify-rest-api",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "build": "tsup ./src --out-dir build",
     "start": "node ./build/server.js",
