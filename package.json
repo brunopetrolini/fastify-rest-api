@@ -2,7 +2,7 @@
   "name": "fastify-rest-api",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup ./src",
     "start": "npm run build && node dist/server.js",
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src --ext .ts",
@@ -28,6 +28,7 @@
     "chance": "^1.1.11",
     "eslint": "^8.56.0",
     "supertest": "^6.3.4",
+    "tsup": "^8.0.1",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "vitest": "^1.2.1"

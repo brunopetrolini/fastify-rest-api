@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { randomUUID } from 'node:crypto'
 
 import { checkSessionIdMiddy } from '../middlewares'
-import { knex } from '../db'
+import { knex } from '../database'
 
 import type { FastifyInstance } from 'fastify'
 
