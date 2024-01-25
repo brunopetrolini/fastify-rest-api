@@ -7,5 +7,6 @@ node_modules
 # Project folders and files
 db/
 dist
+build
 .env
 .env.test
